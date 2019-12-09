@@ -1,0 +1,105 @@
+[1mdiff --git a/JavaApplication1/build/classes/NewJFrame$1.class b/JavaApplication1/build/classes/NewJFrame$1.class[m
+[1mindex 81267d0..a6f1f75 100644[m
+Binary files a/JavaApplication1/build/classes/NewJFrame$1.class and b/JavaApplication1/build/classes/NewJFrame$1.class differ
+[1mdiff --git a/JavaApplication1/build/classes/NewJFrame$2.class b/JavaApplication1/build/classes/NewJFrame$2.class[m
+[1mindex ffade7e..acf04e6 100644[m
+Binary files a/JavaApplication1/build/classes/NewJFrame$2.class and b/JavaApplication1/build/classes/NewJFrame$2.class differ
+[1mdiff --git a/JavaApplication1/build/classes/NewJFrame$3.class b/JavaApplication1/build/classes/NewJFrame$3.class[m
+[1mindex d319b71..cf96a3b 100644[m
+Binary files a/JavaApplication1/build/classes/NewJFrame$3.class and b/JavaApplication1/build/classes/NewJFrame$3.class differ
+[1mdiff --git a/JavaApplication1/build/classes/NewJFrame$4.class b/JavaApplication1/build/classes/NewJFrame$4.class[m
+[1mindex a3fff9d..9edcb6e 100644[m
+Binary files a/JavaApplication1/build/classes/NewJFrame$4.class and b/JavaApplication1/build/classes/NewJFrame$4.class differ
+[1mdiff --git a/JavaApplication1/build/classes/NewJFrame$5.class b/JavaApplication1/build/classes/NewJFrame$5.class[m
+[1mindex 8236e81..95b6f59 100644[m
+Binary files a/JavaApplication1/build/classes/NewJFrame$5.class and b/JavaApplication1/build/classes/NewJFrame$5.class differ
+[1mdiff --git a/JavaApplication1/build/classes/NewJFrame$6.class b/JavaApplication1/build/classes/NewJFrame$6.class[m
+[1mindex 37dd822..e936ce8 100644[m
+Binary files a/JavaApplication1/build/classes/NewJFrame$6.class and b/JavaApplication1/build/classes/NewJFrame$6.class differ
+[1mdiff --git a/JavaApplication1/build/classes/NewJFrame.class b/JavaApplication1/build/classes/NewJFrame.class[m
+[1mindex 997f4da..a814719 100644[m
+Binary files a/JavaApplication1/build/classes/NewJFrame.class and b/JavaApplication1/build/classes/NewJFrame.class differ
+[1mdiff --git a/JavaApplication1/build/classes/NewJFrame.form b/JavaApplication1/build/classes/NewJFrame.form[m
+[1mindex 888d4aa..e96becf 100644[m
+[1m--- a/JavaApplication1/build/classes/NewJFrame.form[m
+[1m+++ b/JavaApplication1/build/classes/NewJFrame.form[m
+[36m@@ -24,29 +24,32 @@[m
+     <DimensionLayout dim="0">[m
+       <Group type="103" groupAlignment="0" attributes="0">[m
+           <Group type="102" alignment="0" attributes="0">[m
+[31m-              <EmptySpace min="-2" pref="127" max="-2" attributes="0"/>[m
+[31m-              <Group type="103" groupAlignment="0" max="-2" attributes="0">[m
+[31m-                  <Component id="jPanel3" max="32767" attributes="0"/>[m
+[31m-                  <Component id="panel_search_lich" max="32767" attributes="0"/>[m
+[32m+[m[32m              <Group type="103" groupAlignment="0" attributes="0">[m
+[32m+[m[32m                  <Group type="102" attributes="0">[m
+[32m+[m[32m                      <EmptySpace max="-2" attributes="0"/>[m
+[32m+[m[32m                      <Group type="103" groupAlignment="0" attributes="0">[m
+[32m+[m[32m                          <Component id="panel_search_lich" min="-2" max="-2" attributes="0"/>[m
+[32m+[m[32m                          <Component id="jPanel3" alignment="0" min="-2" max="-2" attributes="0"/>[m
+[32m+[m[32m                      </Group>[m
+[32m+[m[32m                      <EmptySpace max="-2" attributes="0"/>[m
+[32m+[m[32m                      <Component id="jPanel4" max="32767" attributes="0"/>[m
+[32m+[m[32m                      <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>[m
+[32m+[m[32m                  </Group>[m
+[32m+[m[32m                  <Group type="102" alignment="0" attributes="0">[m
+[32m+[m[32m                      <EmptySpace min="-2" pref="513" max="-2" attributes="0"/>[m
+[32m+[m[32m                      <Component id="btHoanTatNhanKhach" min="-2" pref="343" max="-2" attributes="0"/>[m
+[32m+[m[32m                      <EmptySpace max="32767" attributes="0"/>[m
+[32m+[m[32m                  </Group>[m
+               </Group>[m
+[31m-              <EmptySpace pref="29" max="32767" attributes="0"/>[m
+               <Component id="pannel_add_dv_nl" min="-2" max="-2" attributes="0"/>[m
+               <EmptySpace type="separate" max="-2" attributes="0"/>[m
+               <Component id="jPanel2" min="-2" max="-2" attributes="0"/>[m
+               <EmptySpace min="-2" pref="109" max="-2" attributes="0"/>[m
+           </Group>[m
+[31m-          <Group type="102" attributes="0">[m
+[31m-              <Group type="103" groupAlignment="0" attributes="0">[m
+[31m-                  <Group type="102" alignment="0" attributes="0">[m
+[31m-                      <EmptySpace min="-2" pref="656" max="-2" attributes="0"/>[m
+[31m-                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>[m
+[31m-                  </Group>[m
+[31m-                  <Group type="102" alignment="0" attributes="0">[m
+[31m-                      <EmptySpace min="-2" pref="702" max="-2" attributes="0"/>[m
+[31m-                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>[m
+[31m-                  </Group>[m
+[31m-              </Group>[m
+[31m-              <EmptySpace max="32767" attributes="0"/>[m
+[32m+[m[32m          <Group type="102" alignment="0" attributes="0">[m
+[32m+[m[32m              <EmptySpace min="-2" pref="474" max="-2" attributes="0"/>[m
+[32m+[m[32m              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>[m
+[32m+[m[32m              <EmptySpace pref="2386" max="32767" attributes="0"/>[m
+           </Group>[m
+       </Group>[m
+     </DimensionLayout>[m
+[36m@@ -58,37 +61,41 @@[m
+                       <EmptySpace min="-2" pref="150" max="-2" attributes="0"/>[m
+                       <Component id="jPanel2" min="-2" max="-2" attributes="0"/>[m
+                   </Group>[m
+[31m-                  <Group type="102" alignment="0" attributes="0">[m
+[31m-                      <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>[m
+[32m+[m[32m                  <Group type="102" attributes="0">[m
+[32m+[m[32m                      <EmptySpace max="-2" attributes="0"/>[m
+                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>[m
+[31m-                      <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>[m
+[31m-                      <Component id="pannel_add_dv_nl" min="-2" max="-2" attributes="0"/>[m
+[31m-                  </Group>[m
+[31m-                  <Group type="102" alignment="0" attributes="0">[m
+[31m-                      <EmptySpace min="-2" pref="142" max="-2" attributes="0"/>[m
+[31m-                      <Component id="panel_search_lich" min="-2" max="-2" attributes="0"/>[m
+[31m-                      <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>[m
+[31m-                      <Component id="jPanel3" min="-2" pref="442" max="-2" attributes="0"/>[m
+[32m+[m[32m                      <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>[m
+[32m+[m[32m                      <Group type="103" groupAlignment="0" attributes="0">[m
+[32m+[m[32m                          <Group type="102" attributes="0">[m
+[32m+[m[32m                              <Component id="panel_search_lich" min="-2" max="-2" attributes="0"/>[m
+[32m+[m[32m                              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>[m
+[32m+[m[32m                              <Component id="jPanel3" min="-2" max="-2" attributes="0"/>[m
+[32m+[m[32m                          </Group>[m
+[32m+[m[32m                          <Component id="jPanel4" min="-2" max="-2" attributes="0"/>[m
+[32m+[m[32m                      </Group>[m
+[32m+[m[32m                      <Group type="103" groupAlignment="0" attributes="0">[m
+[32m+[m[32m                          <Group type="102" attributes="0">[m
+[32m+[m[32m                              <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>[m
+[32m+[m[32m                              <Component id="pannel_add_dv_nl" min="-2
