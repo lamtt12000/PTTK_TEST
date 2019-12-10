@@ -5,24 +5,41 @@
  */
 package model;
 
+import java.sql.Date;
+
 /**
  *
  * @author lamtran
  */
 public class Lich {
     private int maL;
-    private String ngay;
+    private Date ngay;
     private String sdtkhachhang;
     private int status;
+    private int maNV;
 
-    public Lich() {
-    }
 
-    public Lich(int maL, String ngay, String sdtkhachhang, int status) {
+    public Lich(int maL, Date ngay, String sdtkhachhang, int status, int maNV) {
         this.maL = maL;
         this.ngay = ngay;
         this.sdtkhachhang = sdtkhachhang;
         this.status = status;
+        this.maNV = maNV;
+    }
+
+    public Lich(Date ngay, String sdtkhachhang, int status, int maNV) {
+        this.ngay = ngay;
+        this.sdtkhachhang = sdtkhachhang;
+        this.status = status;
+        this.maNV = maNV;
+    }
+    
+    public int getMaNV() {
+        return maNV;
+    }
+
+    public void setMaNV(int maNV) {
+        this.maNV = maNV;
     }
 
     public int getMaL() {
@@ -33,14 +50,15 @@ public class Lich {
         this.maL = maL;
     }
 
-    public String getNgay() {
+    public Date getNgay() {
         return ngay;
     }
 
-    public void setNgay(String ngay) {
+    public void setNgay(Date ngay) {
         this.ngay = ngay;
     }
 
+   
     public String getSdtkhachhang() {
         return sdtkhachhang;
     }
@@ -57,5 +75,5 @@ public class Lich {
         this.status = status;
     }
     
-    
+   
 }

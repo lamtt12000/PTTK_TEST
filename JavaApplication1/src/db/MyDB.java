@@ -19,22 +19,22 @@ public class MyDB {
     private final String pass = "";
 
     private Connection con;
-    public Connection getConnect() throws SQLException{
+    public Connection openConnect() throws SQLException{
         try {
             Class.forName(className);
             con=(Connection) DriverManager.getConnection(url,user,pass);
-            System.out.println("Connect success");
+//            System.out.println("Connect success");
 
         } catch (ClassNotFoundException ex) {
             System.out.println("Connect failed");
             ex.printStackTrace();
         }
-
+        
        return con;
-   }
-    
-    public static void main(String[] args) throws SQLException {
-        MyDB m = new MyDB();
-        m.getConnect();
     }
+    
+    public void closeConnect() throws SQLException {
+        con.close();
+    }
+    
 }
