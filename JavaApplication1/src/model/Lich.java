@@ -5,7 +5,7 @@
  */
 package model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  *
@@ -13,13 +13,13 @@ import java.sql.Date;
  */
 public class Lich {
     private int maL;
-    private Date ngay;
+    private Timestamp ngay;
     private String sdtkhachhang;
     private int status;
     private int maNV;
 
 
-    public Lich(int maL, Date ngay, String sdtkhachhang, int status, int maNV) {
+    public Lich(int maL, Timestamp ngay, String sdtkhachhang, int status, int maNV) {
         this.maL = maL;
         this.ngay = ngay;
         this.sdtkhachhang = sdtkhachhang;
@@ -27,7 +27,7 @@ public class Lich {
         this.maNV = maNV;
     }
 
-    public Lich(Date ngay, String sdtkhachhang, int status, int maNV) {
+    public Lich(Timestamp ngay, String sdtkhachhang, int status, int maNV) {
         this.ngay = ngay;
         this.sdtkhachhang = sdtkhachhang;
         this.status = status;
@@ -50,11 +50,11 @@ public class Lich {
         this.maL = maL;
     }
 
-    public Date getNgay() {
+    public Timestamp getNgay() {
         return ngay;
     }
 
-    public void setNgay(Date ngay) {
+    public void setNgay(Timestamp ngay) {
         this.ngay = ngay;
     }
 

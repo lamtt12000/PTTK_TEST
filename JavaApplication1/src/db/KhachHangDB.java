@@ -96,11 +96,11 @@ public class KhachHangDB {
         return list_l;
     }
     
-    public KhachHang get_by_id(int makh) {
+    public KhachHang get_by_sodt(String sdt) {
         KhachHang la = null;
         try {
             con = myDB.openConnect();
-            String sql = "SELECT * FROM khachhang WHERE makh = " + makh;
+            String sql = "SELECT * FROM khachhang WHERE sodt = " + sdt;
             ps=con.prepareStatement(sql);
             rs=ps.executeQuery();
             rs.last();    // moves cursor to the last row
@@ -121,7 +121,7 @@ public class KhachHangDB {
         KhachHang k = new KhachHang( 1, "KH A", "01223123", "akh@gmail.com", "Ha noi");
         KhachHangDB kdb = new KhachHangDB(k);
 //        kdb.insert();
-        KhachHang k1 = kdb.get_by_id(1);
-        System.out.println(k1.getEmail());
+//        KhachHang k1 = kdb.get_by_id(1);
+//        System.out.println(k1.getEmail());
     }
 }

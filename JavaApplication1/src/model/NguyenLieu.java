@@ -15,16 +15,26 @@ public class NguyenLieu {
     private int soluong;
     private int dongia;
     private int nhaCungCapId;
+    private String mota;
 
     public NguyenLieu() {
     }
 
-    public NguyenLieu(int maNL, String ten, int soluong, int dongia, int nhaCungCapId) {
+    public NguyenLieu(int maNL, String ten, int soluong, int dongia, String mota, int nhaCungCapId) {
         this.maNL = maNL;
         this.ten = ten;
         this.soluong = soluong;
         this.dongia = dongia;
         this.nhaCungCapId = nhaCungCapId;
+        this.mota = mota;
+    }
+
+    public String getMota() {
+        return mota;
+    }
+
+    public void setMota(String mota) {
+        this.mota = mota;
     }
 
     public int getMaNL() {

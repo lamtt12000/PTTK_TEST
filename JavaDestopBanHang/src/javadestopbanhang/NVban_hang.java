@@ -316,6 +316,11 @@ public class NVban_hang extends javax.swing.JFrame {
 
         cbLH.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         cbLH.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã Hàng", "Tên Hàng" }));
+        cbLH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbLHActionPerformed(evt);
+            }
+        });
 
         tfSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -771,6 +776,10 @@ public class NVban_hang extends javax.swing.JFrame {
     private void tfSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfSearchActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfSearchActionPerformed
+
+    private void cbLHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbLHActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbLHActionPerformed
  
     /**
      * @param args the command line arguments

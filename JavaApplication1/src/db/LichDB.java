@@ -13,9 +13,11 @@ import java.util.logging.Logger;
 import model.Lich;
 import java.sql.Date;  
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+import model.KhachHang;
 
 /**
  *
@@ -27,6 +29,11 @@ public class LichDB {
     private PreparedStatement ps;
     private Lich l;
     private ResultSet rs;
+    
+    public LichDB() {
+        myDB = new MyDB();
+    }
+     
     public LichDB(Lich l) {
         this.l = l;
         myDB = new MyDB();
@@ -39,7 +46,7 @@ public class LichDB {
             String sql = "INSERT INTO lich(sdt_kh, ngay, status, manv) VALUES(?, ?, ?, ?)";
             ps=con.prepareStatement(sql);
             ps.setString(1,l.getSdtkhachhang());
-            ps.setDate(2,l.getNgay());
+            ps.setTimestamp(2, l.getNgay());
             ps.setInt(3, l.getStatus());
             ps.setInt(4, l.getMaNV());
             ps.executeUpdate();
@@ -66,7 +73,7 @@ public class LichDB {
                     + " WHERE mal = ?";
                 ps=con.prepareStatement(sql);
                 ps.setString(1,l.getSdtkhachhang());
-                ps.setDate(2,l.getNgay());
+                ps.setTimestamp(2, l.getNgay());
                 ps.setInt(3, l.getStatus());
                 ps.setInt(4, l.getMaNV());
                 ps.setInt(5, l.getMaL());
@@ -95,7 +102,7 @@ public class LichDB {
             rs=ps.executeQuery();
             
             while(rs.next()){
-                Lich la = new Lich(rs.getInt("mal"), rs.getDate("ngay"), 
+                Lich la = new Lich(rs.getInt("mal"), rs.getTimestamp("ngay"), 
                 rs.getString("sdt_kh"), rs.getInt("status"), rs.getInt("manv"));
                 list_l.add(la);
             }
@@ -115,7 +122,7 @@ public class LichDB {
             rs.last();    // moves cursor to the last row
             int size = rs.getRow(); // get row id 
             if (size != 0) {
-                la = new Lich(rs.getInt("mal"), rs.getDate("ngay"),
+                la = new Lich(rs.getInt("mal"), rs.getTimestamp("ngay"),
                     rs.getString("sdt_kh"), rs.getInt("status"), rs.getInt("manv"));
             }
             
@@ -133,7 +140,7 @@ public class LichDB {
             ps=con.prepareStatement(sql);
             rs=ps.executeQuery();
             while(rs.next()) {
-                Lich la = new Lich(rs.getInt("mal"), rs.getDate("ngay"),
+                Lich la = new Lich(rs.getInt("mal"), rs.getTimestamp("ngay"),
                     rs.getString("sdt_kh"), rs.getInt("status"), rs.getInt("manv"));
                 list_l.add(la);
             }
@@ -151,7 +158,7 @@ public class LichDB {
             ps=con.prepareStatement(sql);
             rs=ps.executeQuery();
             while(rs.next()) {
-                Lich la = new Lich(rs.getInt("mal"), rs.getDate("ngay"),
+                Lich la = new Lich(rs.getInt("mal"), rs.getTimestamp("ngay"),
                     rs.getString("sdt_kh"), rs.getInt("status"), rs.getInt("manv"));
                 list_l.add(la);
             }
@@ -161,11 +168,42 @@ public class LichDB {
         return list_l;
     }
     
-    
+    public List<Lich> get_by_lstsdt_and_date(List<KhachHang> list, String date) {
+        List<Lich> list_l = new ArrayList<Lich>();
+        try {
+            con = myDB.openConnect();
+            String sql = "SELECT * FROM lich WHERE sdt_kh = ?";
+            ps=con.prepareStatement(sql);
+            for (int i = 0; i < list.size(); i++) {
+                System.out.println("-------------" + list.get(i).getSodt());
+                ps.setString(1, list.get(i).getSodt());
+                rs = ps.executeQuery();
+                while(rs.next()) {
+                    System.out.println(rs.getInt("manv"));
+                    Lich la = new Lich(rs.getInt("mal"), rs.getTimestamp("ngay"),
+                        rs.getString("sdt_kh"), rs.getInt("status"), rs.getInt("manv"));
+                    list_l.add(la);
+                }
+            }
+            
+           
+        } catch (SQLException ex) {
+            Logger.getLogger(LichDB.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                rs.close();
+                ps.close();
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(LichDB.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return list_l;
+    }
     
     public static void main(String[] args) {
-        String str="2019-03-24";
-        Date date=Date.valueOf(str);
+        String str="2019-03-24 10:08:08";
+        Timestamp date= new Timestamp(Date.valueOf(str).getTime());
         Lich l = new Lich(2, date, "037686566999", 1, 1);
         LichDB ldb = new LichDB(l);
 //        System.out.println(ldb.get_by_sdt_and_date("037686566999", date));

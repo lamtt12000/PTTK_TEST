@@ -1,8 +1,17 @@
 
+import db.DichVuDB;
 import db.KhachHangDB;
+import db.LichDB;
+import db.NguyenLieuDB;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.DichVu;
 import model.KhachHang;
+import model.Lich;
+import model.NguyenLieu;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -55,12 +64,21 @@ public class NewJFrame extends javax.swing.JFrame {
         tbShowDVNL = new javax.swing.JTable();
         btHoanTatDVNL = new javax.swing.JButton();
         btBackDVNL = new javax.swing.JButton();
+        cbDVNL = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tbShowBillTamTinh = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         lbTongtienTamTinh = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        lbTenKH = new javax.swing.JLabel();
+        lbSdtKH = new javax.swing.JLabel();
+        lbEmail = new javax.swing.JLabel();
+        lbLich = new javax.swing.JLabel();
         btHoanTatNhanKhach = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -94,6 +112,11 @@ public class NewJFrame extends javax.swing.JFrame {
                 "Ten ", "So dien thoai", "Email", "Lich"
             }
         ));
+        tbShowLich.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbShowLichMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbShowLich);
 
         btnTaoLich.setText("Tao Lich");
@@ -179,6 +202,11 @@ public class NewJFrame extends javax.swing.JFrame {
         });
 
         btBackNVPV.setText("Quay Lai");
+        btBackNVPV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btBackNVPVActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -208,7 +236,6 @@ public class NewJFrame extends javax.swing.JFrame {
 
         panel_search_dv_nl.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Them dich vu, nguyen lieu", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 18))); // NOI18N
 
-        tfSearchNLDV.setText("Nhap ten dich vu/nguyen lieu");
         tfSearchNLDV.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfSearchNLDVActionPerformed(evt);
@@ -234,8 +261,20 @@ public class NewJFrame extends javax.swing.JFrame {
         jScrollPane3.setViewportView(tbShowDVNL);
 
         btHoanTatDVNL.setText("Hoan Tat");
+        btHoanTatDVNL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btHoanTatDVNLActionPerformed(evt);
+            }
+        });
 
         btBackDVNL.setText("Quay Lai");
+        btBackDVNL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btBackDVNLActionPerformed(evt);
+            }
+        });
+
+        cbDVNL.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dich vu", "Nguyen lie" }));
 
         javax.swing.GroupLayout panel_search_dv_nlLayout = new javax.swing.GroupLayout(panel_search_dv_nl);
         panel_search_dv_nl.setLayout(panel_search_dv_nlLayout);
@@ -246,10 +285,12 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addGroup(panel_search_dv_nlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3)
                     .addGroup(panel_search_dv_nlLayout.createSequentialGroup()
-                        .addComponent(tfSearchNLDV, javax.swing.GroupLayout.PREFERRED_SIZE, 493, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
-                        .addComponent(btnSearchDVNL)
-                        .addGap(51, 51, 51)))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(cbDVNL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(tfSearchNLDV, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnSearchDVNL, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_search_dv_nlLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -264,7 +305,8 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(panel_search_dv_nlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSearchDVNL)
-                    .addComponent(tfSearchNLDV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfSearchNLDV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbDVNL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(41, 41, 41)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
@@ -320,6 +362,22 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jLabel3.setText("Ten khach hang:");
+
+        jLabel5.setText("So dien thoai:");
+
+        jLabel6.setText("Email:");
+
+        jLabel7.setText("Lich:");
+
+        lbTenKH.setText("jLabel8");
+
+        lbSdtKH.setText("jLabel8");
+
+        lbEmail.setText("jLabel8");
+
+        lbLich.setText("jLabel8");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -328,8 +386,20 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(panel_search_dv_nl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(362, Short.MAX_VALUE))
+                    .addComponent(panel_search_dv_nl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbSdtKH)
+                            .addComponent(lbTenKH)
+                            .addComponent(lbEmail)
+                            .addComponent(lbLich))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -337,7 +407,23 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addComponent(panel_search_dv_nl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(130, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(lbTenKH))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(lbSdtKH))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(lbEmail))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(lbLich))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         btHoanTatNhanKhach.setText("Hoan tat");
@@ -425,18 +511,92 @@ public class NewJFrame extends javax.swing.JFrame {
 //                "Khach hang chua dat lich", JOptionPane.YES_NO_OPTION);
         String ten = tfSearchNameKH.getText();
         KhachHangDB kdb = new KhachHangDB();
+        LichDB ldb = new LichDB();
         List<KhachHang> lkh = kdb.get_by_name(ten);
+        //viet them cai select query list input listsdt kh output: list Lich
+        List<Lich> ll =  ldb.get_by_lstsdt_and_date(lkh, "2019-03-24");
         
-                
+        showData(ll);
+        
 
     }//GEN-LAST:event_btnSearchKhachActionPerformed
 
+    public void showData(List<Lich> list){
+        Vector col = new Vector();
+        
+        col.addElement("Ten");  
+        col.addElement("So dien thoai");
+        col.addElement("Email");
+        col.addElement("Lich");
+        
+       Vector data = new Vector();
+       for (int i = 0; i< list.size(); i++) {
+           Vector mh = new Vector();
+           String sdt = list.get(i).getSdtkhachhang();
+           KhachHangDB kdb = new KhachHangDB();
+           KhachHang kh = kdb.get_by_sodt(sdt);
+           mh.addElement(kh.getTen());
+           mh.addElement(kh.getSodt());
+           mh.addElement(kh.getEmail());
+           mh.addElement(list.get(i).getNgay());
+           
+           data.add(mh);
+       }
+      
+        tbShowLich.setModel(new DefaultTableModel(data,col));
+         
+    }
+    
+    public void showDVNL(List<DichVu> l_dv, List<NguyenLieu> l_nl){
+        Vector col = new Vector();
+        
+        col.addElement("Ma");  
+        col.addElement("Ten");
+        col.addElement("Don gia");
+        col.addElement("Mota");
+        
+        Vector data = new Vector();
+        
+        if (l_dv != null) {
+            for (int i = 0; i< l_dv.size(); i++) {
+                Vector mh = new Vector();
+                mh.addElement(l_dv.get(i).getMaDV());
+                mh.addElement(l_dv.get(i).getTen());
+                mh.addElement(l_dv.get(i).getDongia());
+                mh.addElement(l_dv.get(i).getMota());
+                data.add(mh);
+            }
+        }else {
+            for (int i = 0; i< l_nl.size(); i++) {
+                Vector mh = new Vector();
+                mh.addElement(l_nl.get(i).getMaNL());
+                mh.addElement(l_nl.get(i).getTen());
+                mh.addElement(l_nl.get(i).getDongia());
+                mh.addElement(l_nl.get(i).getMota());
+                data.add(mh);
+            }
+        }
+        tbShowDVNL.setModel(new DefaultTableModel(data,col));
+    }
+   
     private void tfSearchNLDVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfSearchNLDVActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfSearchNLDVActionPerformed
 
     private void btnSearchDVNLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchDVNLActionPerformed
         // TODO add your handling code here:
+         int index = cbDVNL.getSelectedIndex();
+         if (index == 0) {
+             DichVuDB dvdb = new DichVuDB();
+             List<DichVu> list = dvdb.get_by_name(tfSearchNLDV.getText());
+             showDVNL(list, null);
+         } else {
+             NguyenLieuDB nldb = new NguyenLieuDB();
+             List<NguyenLieu> list = nldb.get_by_name(tfSearchNLDV.getText());
+             showDVNL(null, list);
+         }
+         
+         
     }//GEN-LAST:event_btnSearchDVNLActionPerformed
 
     private void btnTaoLichActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaoLichActionPerformed
@@ -447,6 +607,76 @@ public class NewJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btHoanTatNVPVActionPerformed
 
+    private void tbShowLichMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbShowLichMouseClicked
+        // TODO add your handling code here:
+        int row = tbShowLich.getSelectedRow();
+        if(row !=-1){
+            String id = (String) tbShowLich.getValueAt(row,0 );
+            lbTenKH.setText(tbShowLich.getValueAt(row,0 ).toString());
+            lbSdtKH.setText(tbShowLich.getValueAt(row, 1).toString());
+            lbEmail.setText(tbShowLich.getValueAt(row, 2).toString());
+            lbLich.setText(tbShowLich.getValueAt(row, 3).toString());
+            lichEnable(false);
+            dichvuNLEnable(true);
+        }
+    }//GEN-LAST:event_tbShowLichMouseClicked
+
+    private void btBackDVNLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBackDVNLActionPerformed
+        // TODO add your handling code here:
+        lichEnable(true);
+    }//GEN-LAST:event_btBackDVNLActionPerformed
+
+    private void btBackNVPVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBackNVPVActionPerformed
+        // TODO add your handling code here
+        dichvuNLEnable(true);
+    }//GEN-LAST:event_btBackNVPVActionPerformed
+
+    private void btHoanTatDVNLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btHoanTatDVNLActionPerformed
+        // TODO add your handling code here:
+        dichvuNLEnable(false);
+        nhanvienPVEnable(true);
+    }//GEN-LAST:event_btHoanTatDVNLActionPerformed
+    
+    private void lichEnable(boolean is_show) {
+        tbShowLich.setEnabled(is_show);
+        tfSearchNameKH.setEnabled(is_show);
+        btnSearchKhach.setEnabled(is_show);
+        btnTaoLich.setEnabled(is_show);
+        
+        if (is_show) {
+            dichvuNLEnable(!is_show);
+            nhanvienPVEnable(!is_show);
+        }
+        
+    }
+    
+    
+    private void dichvuNLEnable(boolean is_show) {
+        tbShowDVNL.setEnabled(is_show);
+        tfSearchNLDV.setEnabled(is_show);
+        btnSearchDVNL.setEnabled(is_show);
+        btBackDVNL.setEnabled(is_show);
+        btHoanTatDVNL.setEnabled(is_show);
+        
+        if (is_show) {
+            lichEnable(!is_show);
+            nhanvienPVEnable(!is_show);
+        }
+    }
+    
+    
+    private void nhanvienPVEnable(boolean is_show) {
+        tbShowNVPV.setEnabled(is_show);
+        btBackNVPV.setEnabled(is_show);
+        btHoanTatNVPV.setEnabled(is_show);
+        if (is_show) {
+            lichEnable(!is_show);
+            dichvuNLEnable(!is_show);
+        }
+    }
+    
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -491,9 +721,14 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnSearchDVNL;
     private javax.swing.JButton btnSearchKhach;
     private javax.swing.JButton btnTaoLich;
+    private javax.swing.JComboBox<String> cbDVNL;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -501,6 +736,10 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JLabel lbEmail;
+    private javax.swing.JLabel lbLich;
+    private javax.swing.JLabel lbSdtKH;
+    private javax.swing.JLabel lbTenKH;
     private javax.swing.JLabel lbTongtienTamTinh;
     private javax.swing.JPanel panel_search_dv_nl;
     private javax.swing.JPanel panel_search_lich;
