@@ -32,7 +32,6 @@ public class LichDB {
         myDB = new MyDB();
     }
     
-    
     public int insert() throws SQLException{
         int kt = 10002;
         try {
@@ -85,7 +84,6 @@ public class LichDB {
         }
         return kt; 
     }
-    
     
     
     public List<Lich> get_all(){
@@ -145,14 +143,34 @@ public class LichDB {
         return list_l;
     }
     
+    public List<Lich> get_by_sdt_and_date(String sdt, Date date) {
+        List<Lich> list_l = new ArrayList<Lich>();
+        try {
+            con = myDB.openConnect();
+            String sql = "SELECT * FROM lich WHERE sdt_kh = "+ sdt +" AND ngay = '" + String.valueOf(date) + "'";
+            ps=con.prepareStatement(sql);
+            rs=ps.executeQuery();
+            while(rs.next()) {
+                Lich la = new Lich(rs.getInt("mal"), rs.getDate("ngay"),
+                    rs.getString("sdt_kh"), rs.getInt("status"), rs.getInt("manv"));
+                list_l.add(la);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LichDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list_l;
+    }
+    
+    
     
     public static void main(String[] args) {
         String str="2019-03-24";
         Date date=Date.valueOf(str);
         Lich l = new Lich(2, date, "037686566999", 1, 1);
         LichDB ldb = new LichDB(l);
-        System.out.println(ldb.get_by_id(1));
-        System.out.println(ldb.get_by_status(2));
+//        System.out.println(ldb.get_by_sdt_and_date("037686566999", date));
+//        System.out.println(ldb.get_by_status(2));
+//        System.out.println(ldb.get_by_sdt_and_date("037686566999", date));
     }
             
     

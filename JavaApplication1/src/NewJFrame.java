@@ -1,5 +1,8 @@
 
+import db.KhachHangDB;
+import java.util.List;
 import javax.swing.JOptionPane;
+import model.KhachHang;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -32,7 +35,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         panel_search_lich = new javax.swing.JPanel();
-        tfSearchName = new javax.swing.JTextField();
+        tfSearchNameKH = new javax.swing.JTextField();
         btnSearchKhach = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbShowLich = new javax.swing.JTable();
@@ -68,10 +71,10 @@ public class NewJFrame extends javax.swing.JFrame {
         panel_search_lich.setBackground(new java.awt.Color(242, 242, 240));
         panel_search_lich.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tim lich dat", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 18))); // NOI18N
 
-        tfSearchName.setToolTipText("Nhap ten");
-        tfSearchName.addActionListener(new java.awt.event.ActionListener() {
+        tfSearchNameKH.setToolTipText("Nhap ten");
+        tfSearchNameKH.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfSearchNameActionPerformed(evt);
+                tfSearchNameKHActionPerformed(evt);
             }
         });
 
@@ -111,7 +114,7 @@ public class NewJFrame extends javax.swing.JFrame {
                         .addGroup(panel_search_lichLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1)
                             .addGroup(panel_search_lichLayout.createSequentialGroup()
-                                .addComponent(tfSearchName, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(tfSearchNameKH, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                                 .addComponent(btnSearchKhach, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_search_lichLayout.createSequentialGroup()
@@ -124,7 +127,7 @@ public class NewJFrame extends javax.swing.JFrame {
             .addGroup(panel_search_lichLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panel_search_lichLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfSearchName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfSearchNameKH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSearchKhach))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -412,20 +415,20 @@ public class NewJFrame extends javax.swing.JFrame {
         is_show = true;
     }//GEN-LAST:event_btHoanTatNhanKhachActionPerformed
 
-    private void tfSearchNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfSearchNameActionPerformed
+    private void tfSearchNameKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfSearchNameKHActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_tfSearchNameActionPerformed
+    }//GEN-LAST:event_tfSearchNameKHActionPerformed
 
     private void btnSearchKhachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchKhachActionPerformed
         // TODO add your handling code here:
-        System.out.println(tfSearchName.getText());
-        JOptionPane.showMessageDialog(this, "Hay dat lich cho khach khang",
-                "Khach hang chua dat lich", JOptionPane.YES_NO_OPTION);
-//        if(dialogResult == 0) {
-//            System.out.println("Yes option");
-//        } else {
-//            System.out.println("No Option");
-//        } 
+//        JOptionPane.showMessageDialog(this, "Hay dat lich cho khach khang",
+//                "Khach hang chua dat lich", JOptionPane.YES_NO_OPTION);
+        String ten = tfSearchNameKH.getText();
+        KhachHangDB kdb = new KhachHangDB();
+        List<KhachHang> lkh = kdb.get_by_name(ten);
+        
+                
+
     }//GEN-LAST:event_btnSearchKhachActionPerformed
 
     private void tfSearchNLDVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfSearchNLDVActionPerformed
@@ -508,6 +511,6 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JTable tbShowNVPV;
     private javax.swing.JScrollPane tbl_choose_nv;
     private javax.swing.JTextField tfSearchNLDV;
-    private javax.swing.JTextField tfSearchName;
+    private javax.swing.JTextField tfSearchNameKH;
     // End of variables declaration//GEN-END:variables
 }

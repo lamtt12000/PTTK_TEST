@@ -26,6 +26,12 @@ public class KhachHangDB {
     private KhachHang kh;
     private ResultSet rs;
     
+    // searh theo ten => lich 
+    
+    public KhachHangDB() {
+        myDB = new MyDB();
+    }
+    
     public KhachHangDB(KhachHang l) {
         this.kh = l;
         myDB = new MyDB();
@@ -35,12 +41,12 @@ public class KhachHangDB {
         int kt = 10002;
         try {
             con = myDB.openConnect();
-            String sql = "INSERT INTO lich(sdt_kh, ngay, status, manv) VALUES(?, ?, ?, ?)";
+            String sql = "INSERT INTO khachhang(sodt, email, ten, diachi) VALUES(?, ?, ?, ?)";
             ps=con.prepareStatement(sql);
-            ps.setString(1,l.getSdtkhachhang());
-            ps.setDate(2,l.getNgay());
-            ps.setInt(3, l.getStatus());
-            ps.setInt(4, l.getMaNV());
+            ps.setString(1, kh.getSodt());
+            ps.setString(2, kh.getEmail());
+            ps.setString(3, kh.getTen());
+            ps.setString(4, kh.getDiachi());
             ps.executeUpdate();
             kt = 10000;
         } catch (SQLException ex) {
@@ -51,17 +57,17 @@ public class KhachHangDB {
         return kt;
     }
     
-    public List<Lich> get_all(){
-        List<Lich> list_l = new ArrayList<Lich>();
+    public List<KhachHang> get_all(){
+        List<KhachHang> list_l = new ArrayList<KhachHang>();
         try {
             con = myDB.openConnect();
-            String sql = "SELECT * FROM lich";
+            String sql = "SELECT * FROM khachhang";
             ps=con.prepareStatement(sql);
             rs=ps.executeQuery();
             
             while(rs.next()){
-                Lich la = new Lich(rs.getInt("mal"), rs.getDate("ngay"), 
-                rs.getString("sdt_kh"), rs.getInt("status"), rs.getInt("manv"));
+                KhachHang la = new KhachHang(rs.getInt("makh") ,rs.getString("ten"), rs.getString("sodt"), 
+                rs.getString("email"), rs.getString("diachi"));
                 list_l.add(la);
             }
         } catch (SQLException ex) {
@@ -70,23 +76,52 @@ public class KhachHangDB {
         return list_l;
     }
     
-    public Lich get_by_id(int mal) {
-        Lich la = null;
+    public List<KhachHang> get_by_name(String name){
+        List<KhachHang> list_l = new ArrayList<KhachHang>();
         try {
             con = myDB.openConnect();
-            String sql = "SELECT * FROM lich WHERE mal = " + mal;
+            String sql = "SELECT * FROM khachhang WHERE ten LIKE '%" + name + "%'";
+            ps=con.prepareStatement(sql);
+            rs=ps.executeQuery();
+            
+            while(rs.next()){
+                System.out.println(rs.getString("sodt"));
+                KhachHang la = new KhachHang(rs.getInt("makh") ,rs.getString("ten"), rs.getString("sodt"), 
+                rs.getString("email"), rs.getString("diachi"));
+                list_l.add(la);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LichDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list_l;
+    }
+    
+    public KhachHang get_by_id(int makh) {
+        KhachHang la = null;
+        try {
+            con = myDB.openConnect();
+            String sql = "SELECT * FROM khachhang WHERE makh = " + makh;
             ps=con.prepareStatement(sql);
             rs=ps.executeQuery();
             rs.last();    // moves cursor to the last row
             int size = rs.getRow(); // get row id 
             if (size != 0) {
-                la = new Lich(rs.getInt("mal"), rs.getDate("ngay"),
-                    rs.getString("sdt_kh"), rs.getInt("status"), rs.getInt("manv"));
+                la = new KhachHang(rs.getInt("makh") , rs.getString("ten"), rs.getString("sodt"), 
+                rs.getString("email"), rs.getString("diachi"));
             }
             
         } catch (SQLException ex) {
             Logger.getLogger(LichDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return la;
+    }
+    
+    
+    public static void main(String[] args) throws SQLException {
+        KhachHang k = new KhachHang( 1, "KH A", "01223123", "akh@gmail.com", "Ha noi");
+        KhachHangDB kdb = new KhachHangDB(k);
+//        kdb.insert();
+        KhachHang k1 = kdb.get_by_id(1);
+        System.out.println(k1.getEmail());
     }
 }

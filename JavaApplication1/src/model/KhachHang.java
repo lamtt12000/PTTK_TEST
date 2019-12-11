@@ -10,6 +10,7 @@ package model;
  * @author lamtran
  */
 public class KhachHang {
+    private int maKH;
     private String ten;
     private String sodt;
     private String email;
@@ -18,12 +19,25 @@ public class KhachHang {
     public KhachHang() {
     }
 
-    public KhachHang(String ten, String sodt, String email, String diachi) {
+    
+    public KhachHang(int makh, String ten, String sodt, String email, String diachi) {
         this.ten = ten;
         this.sodt = sodt;
         this.email = email;
         this.diachi = diachi;
+        this.maKH = makh;
     }
+
+    
+    public int getMaKH() {
+        return maKH;
+    }
+
+    public void setMaKH(int maKH) {
+        this.maKH = maKH;
+    }
+    
+    
 
     public String getTen() {
         return ten;
