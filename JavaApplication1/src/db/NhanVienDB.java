@@ -77,4 +77,46 @@ public class NhanVienDB {
         return nv;
     }
     
+    
+    public NhanVien get_nhanvien_phucvu(int id) {
+        NhanVien nv = null;
+        try {
+            con = myDB.openConnect();
+            String sql = "SELECT * FROM nhanvien WHERE manv =" + id + " AND status = 0";
+            ps=con.prepareStatement(sql);
+            rs=ps.executeQuery();
+            rs.last();    // moves cursor to the last row
+            int size = rs.getRow(); // get row id 
+            if (size != 0) {
+                nv = new NhanVien(rs.getInt("manv") , rs.getString("ten"), rs.getDate("ngaysinh"), 
+                rs.getString("diachi"), rs.getInt("luong"), rs.getString("matkhau"),rs.getInt("status"), rs.getString("chucvu"));
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(LichDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return nv;
+    }
+    
+    
+    public int update(int manv, int status) throws SQLException {
+        int kt = 10002;
+        try {
+            con = myDB.openConnect();
+            String sql = "UPDATE nhanvien SET status =" + status + " WHERE manv=" + manv;
+            ps = con.prepareStatement(sql);
+            ps.executeUpdate();
+            kt = 10000;
+        } catch (SQLException ex) {
+            Logger.getLogger(LichDB.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            con.close();
+        }
+        return kt;
+    }
+    
+    public static void main(String[] args) throws SQLException {
+        NhanVienDB nvdb = new NhanVienDB();
+//        nvdb.update(4, 1);
+    }
 }

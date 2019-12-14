@@ -91,11 +91,11 @@ public class NguyenLieuDB {
     }
     
 
-    public int update(NguyenLieu nl) throws SQLException {
+    public int updateSoluong(int manl, int soluong) throws SQLException {
         int kt = 10002;
         try {
             con = myDB.openConnect();
-            String sql = "UPDATE nguyenlieu SET soluong =" + nl.getSoluong() + " WHERE manl=" + nl.getMaNL() ;
+            String sql = "UPDATE nguyenlieu SET soluong =" + soluong + " WHERE manl=" + manl ;
             ps = con.prepareStatement(sql);
             ps.executeUpdate();
             kt = 10000;

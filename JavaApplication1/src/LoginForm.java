@@ -148,6 +148,8 @@ public class LoginForm extends javax.swing.JFrame {
                 MainFrame m = new MainFrame();
                 m.setVisible(true);
                 this.setVisible(false);
+            } else {
+                JOptionPane.showMessageDialog(this, "Chuc nang nay khong danh cho ban");
             }
             
         } catch (Exception e) {

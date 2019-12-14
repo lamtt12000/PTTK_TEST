@@ -116,10 +116,53 @@ public class HoaDonDVNLDB {
         return list_l;
     }
     
+    public List<HoaDonDVNL> get_dv_by_id_hd(int id_hd, boolean isShowAll) {
+        List<HoaDonDVNL> list_l = new ArrayList<HoaDonDVNL>();
+        String strManv = "";
+        if (!isShowAll) {
+            strManv =  " AND manvpv=0";
+        } 
+        try {
+            con = myDB.openConnect();
+            String sql = "SELECT * FROM hoadon_dichvu_nguyenlieu WHERE  mahd=" 
+                    + id_hd + " AND type=0" + strManv;
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                HoaDonDVNL la = new HoaDonDVNL(rs.getInt("mahddvnl"), rs.getInt("mahd"),
+                    rs.getInt("madvnl"), rs.getInt("manvpv"), rs.getInt("soluong"), rs.getInt("dongia_hientai"),
+                    rs.getInt("type"));
+                list_l.add(la);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LichDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list_l;
+    }
+    
+    public boolean update_idNV (int id_nv, int mahddvnl) {
+        boolean kt = false;
+        try {
+            con = myDB.openConnect();
+            String sql = "UPDATE hoadon_dichvu_nguyenlieu SET manvpv =" + id_nv
+                    + " WHERE mahddvnl=" + mahddvnl;
+            System.out.println(sql);
+            ps = con.prepareStatement(sql);
+            ps.executeUpdate();
+            kt = true;
+        } catch (SQLException ex) {
+            Logger.getLogger(HoaDonDVNLDB.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            return kt;
+        }
+    }
+    
     public static void main(String[] args) {
         HoaDonDVNLDB h = new HoaDonDVNLDB();
-        for(HoaDonDVNL hd : h.get_by_id_hd(3)) {
-            System.out.println(hd.getType());
-        }
+//        for(HoaDonDVNL hd : h.get_dv_by_id_hd(14)) {
+//            System.out.println(hd.getType());
+//        }
+        h.update_idNV(1, 16);
     }
 }

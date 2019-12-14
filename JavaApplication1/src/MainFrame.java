@@ -6,6 +6,7 @@ import db.KhachHangDB;
 import db.LichDB;
 import db.NguyenLieuDB;
 import db.NhanVienDB;
+import db.NhanVienDichVuDB;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,9 +43,11 @@ public class MainFrame extends javax.swing.JFrame {
     
     static boolean is_show = false;
     static NhanVien nv = null;
-    static int maHD = 0;
+    static int maHD = 0; 
+    static int maL = 0;
     public MainFrame() {
         initComponents();
+        clearData();
     }
 
     /**
@@ -68,8 +71,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         tbl_choose_nv = new javax.swing.JScrollPane();
         tbShowNVPV = new javax.swing.JTable();
-        btHoanTatNVPV = new javax.swing.JButton();
-        btBackNVPV = new javax.swing.JButton();
+        btChonLaiNVPV = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         panel_search_dv_nl = new javax.swing.JPanel();
         tfSearchNLDV = new javax.swing.JTextField();
@@ -170,7 +172,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnTaoLich)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -206,19 +208,17 @@ public class MainFrame extends javax.swing.JFrame {
                 "MaDV", "TenDV", "MaNV", "TenNV"
             }
         ));
-        tbl_choose_nv.setViewportView(tbShowNVPV);
-
-        btHoanTatNVPV.setText("Hoan tat");
-        btHoanTatNVPV.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btHoanTatNVPVActionPerformed(evt);
+        tbShowNVPV.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbShowNVPVMouseClicked(evt);
             }
         });
+        tbl_choose_nv.setViewportView(tbShowNVPV);
 
-        btBackNVPV.setText("Quay Lai");
-        btBackNVPV.addActionListener(new java.awt.event.ActionListener() {
+        btChonLaiNVPV.setText("Chon lai NVPV");
+        btChonLaiNVPV.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btBackNVPVActionPerformed(evt);
+                btChonLaiNVPVActionPerformed(evt);
             }
         });
 
@@ -231,9 +231,8 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(tbl_choose_nv, javax.swing.GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btBackNVPV)
-                        .addGap(32, 32, 32)
-                        .addComponent(btHoanTatNVPV, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btChonLaiNVPV, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(8, 8, 8)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -242,9 +241,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(tbl_choose_nv, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btHoanTatNVPV)
-                    .addComponent(btBackNVPV))
+                .addComponent(btChonLaiNVPV)
                 .addContainerGap(27, Short.MAX_VALUE))
         );
 
@@ -423,13 +420,13 @@ public class MainFrame extends javax.swing.JFrame {
                             .addComponent(lbTenKH)
                             .addComponent(lbEmail)
                             .addComponent(lbLich))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(panel_search_dv_nl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(21, 21, 21)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -464,25 +461,25 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(513, 513, 513)
+                        .addComponent(btHoanTatNhanKhach, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(pannel_add_dv_nl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18))
+                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(panel_search_lich, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(56, 56, 56))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(513, 513, 513)
-                        .addComponent(btHoanTatNhanKhach, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addComponent(pannel_add_dv_nl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(109, 109, 109))
             .addGroup(layout.createSequentialGroup()
                 .addGap(474, 474, 474)
                 .addComponent(jLabel1)
-                .addContainerGap(2386, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -498,7 +495,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(panel_search_lich, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(33, 33, 33)
+                                .addGap(18, 18, 18)
                                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -515,16 +512,67 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btHoanTatNhanKhachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btHoanTatNhanKhachActionPerformed
-        // TODO add your handling code here:
-        if (is_show){
-            jLabel1.setEnabled(true);
-            is_show = false;
-            return;
-        } 
-        jLabel1.setEnabled(false);
-        is_show = true;
+        try {
+            // TODO add your handling code here:
+            if (is_show){
+                jLabel1.setEnabled(true);
+                is_show = false;
+                return;
+            }
+            jLabel1.setEnabled(false);
+            is_show = true;
+            
+            if (tbShowNVPV.getRowCount() != 0) {
+                JOptionPane.showMessageDialog(MainFrame.this, "Ban phai chon nhan vien phuc vu truoc khi hoan tat!" , "Canh bao" , JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            //update lai status lich, update soluong nguyen lieu, update status nhan vien
+            LichDB l = new LichDB();
+            l.update(maL, 1);
+            
+            NhanVienDB nvdb = new NhanVienDB();
+            HoaDonDVNLDB hoaDonDVNLDB = new HoaDonDVNLDB();
+            NguyenLieuDB nguyenLieuDB = new NguyenLieuDB();
+            NhanVienDB nhanVienDB = new NhanVienDB();
+            for (HoaDonDVNL h : hoaDonDVNLDB.get_by_id_hd(maHD)) {
+                
+                if (h.getType() == 1) {
+                    //cap nhat so luong
+                    NguyenLieu nl = nguyenLieuDB.get_by_id(h.getMaDVNL());
+                    int conlai = nl.getSoluong() - h.getSoluong();
+                    nguyenLieuDB.updateSoluong(h.getMaDVNL(), conlai);
+                } else {
+                    // update status nhan vien
+                    nhanVienDB.update(h.getMaNVPV(), 1);
+                }
+                
+                
+            clearData();
+            
+            JOptionPane.showMessageDialog(MainFrame.this, "Nhan khach thanh cong!" , "Thanh cong" , JOptionPane.INFORMATION_MESSAGE);
+    
+                
+            } 
+        } catch (SQLException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btHoanTatNhanKhachActionPerformed
 
+    private void clearData() {
+        DefaultTableModel model = new DefaultTableModel();
+        tbShowLich.setModel(model);
+        tbShowBillTamTinh.setModel(model);
+        tbShowNVPV.setModel(model);
+        tbShowDVNL.setModel(model);
+        
+        lbEmail.setText("");
+        lbLich.setText("");
+        lbSdtKH.setText("");
+        lbTenKH.setText("");
+        lbTongtienTamTinh.setText("");
+        lichEnable(true);
+        
+    }
     private void tfSearchNameKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfSearchNameKHActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfSearchNameKHActionPerformed
@@ -612,7 +660,35 @@ public class MainFrame extends javax.swing.JFrame {
         tbShowDVNL.setModel(new DefaultTableModel(data,col));
     }
    
-    
+    public void showNVPV(boolean showallHddv){
+        Vector col = new Vector();
+        col.addElement("Ma DV");
+        col.addElement("Dich Vu");  
+        col.addElement("Nhan Vien");
+        col.addElement("Ma nhanvien");
+        col.addElement("Ma HDDVNL");
+        Vector data = new Vector();
+        
+        HoaDonDVNLDB hddvnldb = new HoaDonDVNLDB();
+        for (HoaDonDVNL h: hddvnldb.get_dv_by_id_hd(maHD, showallHddv)) {
+            NhanVienDichVuDB nvdb = new NhanVienDichVuDB();
+            DichVu dv = new DichVuDB().get_by_id(h.getMaDVNL());
+           
+            for (NhanVien nv : nvdb.get_by_dichvu_status(h.getMaDVNL())) {
+                Vector mh = new Vector();
+                mh.addElement(dv.getMaDV());
+                mh.addElement(dv.getTen());
+                mh.addElement(nv.getTen());
+                mh.addElement(nv.getMaNV());
+                mh.addElement(h.getMaHDDVNL());
+                data.add(mh);
+            }
+        }
+        
+        tbShowNVPV.setModel(new DefaultTableModel(data,col));
+        
+        
+    }
     
     public void showHoaDonTamTinh(){
         int total = 0;
@@ -694,9 +770,10 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnTaoLichActionPerformed
 
-    private void btHoanTatNVPVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btHoanTatNVPVActionPerformed
+    private void btChonLaiNVPVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btChonLaiNVPVActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btHoanTatNVPVActionPerformed
+        showNVPV(true);
+    }//GEN-LAST:event_btChonLaiNVPVActionPerformed
 
     private void tbShowLichMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbShowLichMouseClicked
         // TODO add your handling code here:
@@ -712,7 +789,7 @@ public class MainFrame extends javax.swing.JFrame {
                 dichvuNLEnable(true);
                 
                 //write function create bill
-                
+                maL = id;
                 HoaDon hd = new HoaDon(nv.getMaNV(), id, 0);
                 HoaDonDB hdb = new HoaDonDB(hd);
                 maHD = hdb.insert();
@@ -740,17 +817,11 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btBackDVNLActionPerformed
 
     
-    private void btBackNVPVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBackNVPVActionPerformed
-        // TODO add your handling code here
-        dichvuNLEnable(true);
-        // click chon them dich vu, nguyen lieu
-        
-    }//GEN-LAST:event_btBackNVPVActionPerformed
-
     private void btHoanTatDVNLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btHoanTatDVNLActionPerformed
         // TODO add your handling code here:
         dichvuNLEnable(false);
         nhanvienPVEnable(true);
+        showNVPV(false);
     }//GEN-LAST:event_btHoanTatDVNLActionPerformed
 
     private void tbShowDVNLMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbShowDVNLMouseClicked
@@ -795,6 +866,21 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         // Cap nhat lai so luong dich vu, nl , xoa (nhap 0)
     }//GEN-LAST:event_tbShowBillTamTinhMouseClicked
+
+    private void tbShowNVPVMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbShowNVPVMouseClicked
+        // TODO add your handling code here:
+        int row = tbShowNVPV.getSelectedRow();
+        if (row !=-1){
+           //update hoa don dich vu nguyen lieu
+           HoaDonDVNLDB hoaDonDVNLDB = new HoaDonDVNLDB();
+           int maNV = (int) tbShowNVPV.getValueAt(row, 3);
+           int maHDDVNL = (int) tbShowNVPV.getValueAt(row, 4);
+           System.out.println(maNV + "___" + maHDDVNL);
+           hoaDonDVNLDB.update_idNV(maNV, maHDDVNL);
+           showNVPV(false);
+           showHoaDonTamTinh();
+        }
+    }//GEN-LAST:event_tbShowNVPVMouseClicked
     
     public static int isNumeric(String strNum) {
         if (strNum == null) {
@@ -838,8 +924,7 @@ public class MainFrame extends javax.swing.JFrame {
     
     private void nhanvienPVEnable(boolean is_show) {
         tbShowNVPV.setEnabled(is_show);
-        btBackNVPV.setEnabled(is_show);
-        btHoanTatNVPV.setEnabled(is_show);
+        btChonLaiNVPV.setEnabled(is_show);
         if (is_show) {
             lichEnable(!is_show);
             dichvuNLEnable(!is_show);
@@ -886,9 +971,8 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btBackDVNL;
-    private javax.swing.JButton btBackNVPV;
+    private javax.swing.JButton btChonLaiNVPV;
     private javax.swing.JButton btHoanTatDVNL;
-    private javax.swing.JButton btHoanTatNVPV;
     private javax.swing.JButton btHoanTatNhanKhach;
     private javax.swing.JButton btnSearchDVNL;
     private javax.swing.JButton btnSearchKhach;
