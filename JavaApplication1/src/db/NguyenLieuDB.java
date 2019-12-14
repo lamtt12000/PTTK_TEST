@@ -72,6 +72,24 @@ public class NguyenLieuDB {
         }
         return list_l;
     }
+    
+    public NguyenLieu get_by_id(int id) {
+        NguyenLieu la = null;
+        try {
+            con = myDB.openConnect();
+            String sql = "SELECT * FROM nguyenlieu WHERE manl=" + id;
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                la = new NguyenLieu(rs.getInt("manl"), rs.getString("ten"), rs.getInt("soluong"), rs.getInt("dongia"), rs.getString("mota"), rs.getInt("mancc"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LichDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return la;
+    }
+    
 
     public int update(NguyenLieu nl) throws SQLException {
         int kt = 10002;

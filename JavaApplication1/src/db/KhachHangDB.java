@@ -9,6 +9,7 @@ import com.mysql.jdbc.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -42,13 +43,16 @@ public class KhachHangDB {
         try {
             con = myDB.openConnect();
             String sql = "INSERT INTO khachhang(sodt, email, ten, diachi) VALUES(?, ?, ?, ?)";
-            ps=con.prepareStatement(sql);
+            ps=con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, kh.getSodt());
             ps.setString(2, kh.getEmail());
             ps.setString(3, kh.getTen());
             ps.setString(4, kh.getDiachi());
             ps.executeUpdate();
-            kt = 10000;
+            rs = ps.getGeneratedKeys();
+            if (rs.next()){
+                kt=rs.getInt(1);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(LichDB.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -120,7 +124,7 @@ public class KhachHangDB {
     public static void main(String[] args) throws SQLException {
         KhachHang k = new KhachHang( 1, "KH A", "01223123", "akh@gmail.com", "Ha noi");
         KhachHangDB kdb = new KhachHangDB(k);
-//        kdb.insert();
+        System.out.println(kdb.insert());
 //        KhachHang k1 = kdb.get_by_id(1);
 //        System.out.println(k1.getEmail());
     }

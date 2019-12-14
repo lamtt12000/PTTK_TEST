@@ -75,4 +75,22 @@ public class DichVuDB {
     }
     
     
+    public DichVu get_by_id(int id){
+        DichVu la = null;
+        try {
+            con = myDB.openConnect();
+            String sql = "SELECT * FROM dichvu WHERE madv=" + id;
+            ps=con.prepareStatement(sql);
+            rs=ps.executeQuery();
+            
+            while(rs.next()){
+               la = new DichVu(rs.getInt("madv") ,rs.getString("ten"), rs.getInt("dongia"), rs.getString("mota"));
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(LichDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return la;
+    }
+    
 }

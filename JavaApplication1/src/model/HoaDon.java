@@ -11,16 +11,22 @@ package model;
  */
 public class HoaDon {
     private int maHD;
-    private int total;
     private int maNV;
     private int maL;
+    private int status;
 
     public HoaDon() {
     }
 
-    public HoaDon(int maHD, int total, int maNV, int maL) {
+    public HoaDon(int maHD, int maNV, int maL, int status) {
         this.maHD = maHD;
-        this.total = total;
+        this.status = status;
+        this.maNV = maNV;
+        this.maL = maL;
+    }
+    
+    public HoaDon(int maNV, int maL, int status) {
+        this.status = status;
         this.maNV = maNV;
         this.maL = maL;
     }
@@ -33,12 +39,12 @@ public class HoaDon {
         this.maHD = maHD;
     }
 
-    public int getTotal() {
-        return total;
+    public int getStatus() {
+        return status;
     }
 
-    public void setTotal(int total) {
-        this.total = total;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public int getMaNV() {

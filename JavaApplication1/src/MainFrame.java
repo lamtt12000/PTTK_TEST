@@ -1,17 +1,27 @@
 
 import db.DichVuDB;
+import db.HoaDonDB;
+import db.HoaDonDVNLDB;
 import db.KhachHangDB;
 import db.LichDB;
 import db.NguyenLieuDB;
+import db.NhanVienDB;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.DichVu;
+import model.HoaDon;
+import model.HoaDonDVNL;
+
 import model.KhachHang;
 import model.Lich;
 import model.NguyenLieu;
+import model.NhanVien;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -23,13 +33,17 @@ import model.NguyenLieu;
  *
  * @author beetsoft
  */
-public class NewJFrame extends javax.swing.JFrame {
+public class MainFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form NewJFrame
      */
+    //truyenf thoong tin cua nhan vien vao day 
+    
     static boolean is_show = false;
-    public NewJFrame() {
+    static NhanVien nv = null;
+    static int maHD = 0;
+    public MainFrame() {
         initComponents();
     }
 
@@ -258,6 +272,11 @@ public class NewJFrame extends javax.swing.JFrame {
                 "Ma", "Ten DV/NL", "Don gia(nghin vnd)", "Mo ta"
             }
         ));
+        tbShowDVNL.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbShowDVNLMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tbShowDVNL);
 
         btHoanTatDVNL.setText("Hoan Tat");
@@ -327,6 +346,11 @@ public class NewJFrame extends javax.swing.JFrame {
                 "Ma", "Ten DV/NL", "Don gia(nghin vnd)", "So luong"
             }
         ));
+        tbShowBillTamTinh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbShowBillTamTinhMouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(tbShowBillTamTinh);
 
         jLabel2.setText("Tong tien :");
@@ -512,18 +536,23 @@ public class NewJFrame extends javax.swing.JFrame {
         String ten = tfSearchNameKH.getText();
         KhachHangDB kdb = new KhachHangDB();
         LichDB ldb = new LichDB();
-        List<KhachHang> lkh = kdb.get_by_name(ten);
+         List<KhachHang> lkh = null;
+        
         //viet them cai select query list input listsdt kh output: list Lich
+        if (ten.length() == 0) {
+            lkh = kdb.get_all();
+        } else {
+            lkh = kdb.get_by_name(ten);
+        }
         List<Lich> ll =  ldb.get_by_lstsdt_and_date(lkh, "2019-03-24");
         
         showData(ll);
         
-
     }//GEN-LAST:event_btnSearchKhachActionPerformed
 
     public void showData(List<Lich> list){
         Vector col = new Vector();
-        
+        col.addElement("Ma Lich");
         col.addElement("Ten");  
         col.addElement("So dien thoai");
         col.addElement("Email");
@@ -535,6 +564,7 @@ public class NewJFrame extends javax.swing.JFrame {
            String sdt = list.get(i).getSdtkhachhang();
            KhachHangDB kdb = new KhachHangDB();
            KhachHang kh = kdb.get_by_sodt(sdt);
+           mh.addElement(list.get(i).getMaL());
            mh.addElement(kh.getTen());
            mh.addElement(kh.getSodt());
            mh.addElement(kh.getEmail());
@@ -554,6 +584,7 @@ public class NewJFrame extends javax.swing.JFrame {
         col.addElement("Ten");
         col.addElement("Don gia");
         col.addElement("Mota");
+        col.addElement("So luong");
         
         Vector data = new Vector();
         
@@ -564,6 +595,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 mh.addElement(l_dv.get(i).getTen());
                 mh.addElement(l_dv.get(i).getDongia());
                 mh.addElement(l_dv.get(i).getMota());
+                mh.addElement(" ");
                 data.add(mh);
             }
         }else {
@@ -573,12 +605,61 @@ public class NewJFrame extends javax.swing.JFrame {
                 mh.addElement(l_nl.get(i).getTen());
                 mh.addElement(l_nl.get(i).getDongia());
                 mh.addElement(l_nl.get(i).getMota());
+                mh.addElement(l_nl.get(i).getSoluong());
                 data.add(mh);
             }
         }
         tbShowDVNL.setModel(new DefaultTableModel(data,col));
     }
    
+    
+    
+    public void showHoaDonTamTinh(){
+        int total = 0;
+        Vector col = new Vector();
+        
+        col.addElement("Ma");  
+        col.addElement("Ten");
+        col.addElement("Loai");
+        col.addElement("Don gia");
+        col.addElement("So luong");
+        col.addElement("NhanVienPV");
+        
+        Vector data = new Vector();
+        
+        HoaDonDVNLDB h = new HoaDonDVNLDB();
+        
+        for (HoaDonDVNL hd : h.get_by_id_hd(maHD)) {
+                Vector mh = new Vector();
+                mh.addElement(hd.getMaDVNL());
+                if (hd.getType() == 0) {
+                    DichVuDB dvdb = new DichVuDB();
+                    DichVu dv = dvdb.get_by_id(hd.getMaDVNL());
+                    mh.addElement(dv.getTen());
+                    mh.addElement("Dich vu");
+                }else{
+                    NguyenLieuDB nldb = new NguyenLieuDB();
+                    NguyenLieu nl = nldb.get_by_id(hd.getMaDVNL());
+                    mh.addElement(nl.getTen());
+                    mh.addElement("Nguyen lieu");
+                }
+                mh.addElement(hd.getDongiahientai());
+                mh.addElement(hd.getSoluong());
+                
+                if (hd.getMaNVPV() != 0) {
+                    NhanVienDB nvdb = new NhanVienDB();
+                    mh.addElement(nvdb.get_by_id(hd.getMaNVPV()).getTen());
+                }else {
+                    mh.addElement(" ");
+                }
+                total += hd.getDongiahientai() * hd.getSoluong();
+                data.add(mh);
+            }
+        
+        lbTongtienTamTinh.setText(total + "");
+        tbShowBillTamTinh.setModel(new DefaultTableModel(data,col));
+    }
+    
     private void tfSearchNLDVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfSearchNLDVActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfSearchNLDVActionPerformed
@@ -588,11 +669,21 @@ public class NewJFrame extends javax.swing.JFrame {
          int index = cbDVNL.getSelectedIndex();
          if (index == 0) {
              DichVuDB dvdb = new DichVuDB();
-             List<DichVu> list = dvdb.get_by_name(tfSearchNLDV.getText());
+             List<DichVu> list = null;
+             if (tfSearchNLDV.getText().length() == 0) {
+                list = dvdb.get_all();
+             } else {
+                list = dvdb.get_by_name(tfSearchNLDV.getText());
+             }
              showDVNL(list, null);
          } else {
              NguyenLieuDB nldb = new NguyenLieuDB();
-             List<NguyenLieu> list = nldb.get_by_name(tfSearchNLDV.getText());
+             List<NguyenLieu> list = null;
+             if (tfSearchNLDV.getText().length() == 0) {
+                 list = nldb.get_all();
+             } else {
+                 list = nldb.get_by_name(tfSearchNLDV.getText());
+             }
              showDVNL(null, list);
          }
          
@@ -611,24 +702,49 @@ public class NewJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         int row = tbShowLich.getSelectedRow();
         if(row !=-1){
-            String id = (String) tbShowLich.getValueAt(row,0 );
-            lbTenKH.setText(tbShowLich.getValueAt(row,0 ).toString());
-            lbSdtKH.setText(tbShowLich.getValueAt(row, 1).toString());
-            lbEmail.setText(tbShowLich.getValueAt(row, 2).toString());
-            lbLich.setText(tbShowLich.getValueAt(row, 3).toString());
-            lichEnable(false);
-            dichvuNLEnable(true);
+            try {
+                int id = (int) tbShowLich.getValueAt(row,0 );
+                lbTenKH.setText(tbShowLich.getValueAt(row,1 ).toString());
+                lbSdtKH.setText(tbShowLich.getValueAt(row, 2).toString());
+                lbEmail.setText(tbShowLich.getValueAt(row, 3).toString());
+                lbLich.setText(tbShowLich.getValueAt(row, 4).toString());
+                lichEnable(false);
+                dichvuNLEnable(true);
+                
+                //write function create bill
+                
+                HoaDon hd = new HoaDon(nv.getMaNV(), id, 0);
+                HoaDonDB hdb = new HoaDonDB(hd);
+                maHD = hdb.insert();
+            } catch (SQLException ex) {
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         }
     }//GEN-LAST:event_tbShowLichMouseClicked
-
+    
+    
+    
     private void btBackDVNLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBackDVNLActionPerformed
-        // TODO add your handling code here:
-        lichEnable(true);
+        try {
+            // TODO add your handling code here:
+            lichEnable(true);
+            //write function detele all bill
+            HoaDonDB hdb = new HoaDonDB();
+            hdb.delete(maHD);
+            HoaDonDVNLDB hdndb = new HoaDonDVNLDB();
+            hdndb.delete_by_id(maHD);
+        } catch (SQLException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btBackDVNLActionPerformed
 
+    
     private void btBackNVPVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBackNVPVActionPerformed
         // TODO add your handling code here
         dichvuNLEnable(true);
+        // click chon them dich vu, nguyen lieu
+        
     }//GEN-LAST:event_btBackNVPVActionPerformed
 
     private void btHoanTatDVNLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btHoanTatDVNLActionPerformed
@@ -636,6 +752,61 @@ public class NewJFrame extends javax.swing.JFrame {
         dichvuNLEnable(false);
         nhanvienPVEnable(true);
     }//GEN-LAST:event_btHoanTatDVNLActionPerformed
+
+    private void tbShowDVNLMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbShowDVNLMouseClicked
+        // TODO add your handling code here:
+        int row = tbShowDVNL.getSelectedRow();
+        if (row !=-1){
+            
+            String title = "Nhap so luong cho " + tbShowDVNL.getValueAt(row,1).toString() + " :";
+            String soluong = JOptionPane.showInputDialog(MainFrame.this, title);
+            if (soluong != null) {
+                
+                if (isNumeric(soluong) != -1) {
+                    if (cbDVNL.getSelectedIndex() == 1) {
+                        int value = (int) tbShowDVNL.getValueAt(row, 4);
+                        if (isNumeric(soluong) > value) {
+                            JOptionPane.showMessageDialog(MainFrame.this, "So luong ban nhap vuot qua " + value+ " so luong trong kho!" , "That bai" , JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                    }
+                    try {
+                        int maDV = (int) tbShowDVNL.getValueAt(row,0 );
+                        int dongiahientai = (int) tbShowDVNL.getValueAt(row, 2);
+                        HoaDonDVNL hddv = new HoaDonDVNL(maHD, maDV, 0, isNumeric(soluong), dongiahientai, cbDVNL.getSelectedIndex());
+                        HoaDonDVNLDB hddvdb = new HoaDonDVNLDB(hddv);
+                        hddvdb.insert();
+                        showHoaDonTamTinh();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                
+                } else {
+                    JOptionPane.showMessageDialog(MainFrame.this, "Ki tu ban nhap phai la so! Vui long thuc hien lai", "That bai" , JOptionPane.WARNING_MESSAGE);
+                }         
+                        
+                   
+                } 
+            } 
+          
+    }//GEN-LAST:event_tbShowDVNLMouseClicked
+
+    private void tbShowBillTamTinhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbShowBillTamTinhMouseClicked
+        // TODO add your handling code here:
+        // Cap nhat lai so luong dich vu, nl , xoa (nhap 0)
+    }//GEN-LAST:event_tbShowBillTamTinhMouseClicked
+    
+    public static int isNumeric(String strNum) {
+        if (strNum == null) {
+            return -1;
+        }
+        try {
+            int d = Integer.parseInt(strNum);
+            return d;
+        } catch (NumberFormatException nfe) {
+            return -1;
+        }
+    }
     
     private void lichEnable(boolean is_show) {
         tbShowLich.setEnabled(is_show);
@@ -694,20 +865,21 @@ public class NewJFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new NewJFrame().setVisible(true);
+                new MainFrame().setVisible(true);
             }
         });
     }

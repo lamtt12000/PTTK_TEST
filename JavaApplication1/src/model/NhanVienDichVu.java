@@ -13,14 +13,24 @@ public class NhanVienDichVu {
     private int maNVDV;
     private int maNV;
     private int maDV;
+    private int status;
 
     public NhanVienDichVu() {
+        
     }
 
     public NhanVienDichVu(int maNVDV, int maNV, int maDV) {
         this.maNVDV = maNVDV;
         this.maNV = maNV;
         this.maDV = maDV;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public int getMaNVDV() {

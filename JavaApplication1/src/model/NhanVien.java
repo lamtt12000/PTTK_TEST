@@ -5,6 +5,8 @@
  */
 package model;
 
+import java.sql.Date;
+
 /**
  *
  * @author lamtran
@@ -12,7 +14,7 @@ package model;
 public class NhanVien {
     private int maNV;
     private String ten;
-    private String ngaysinh;
+    private Date ngaysinh;
     private String diachi;
     private int luong;
     private String matkhau;
@@ -22,7 +24,7 @@ public class NhanVien {
     public NhanVien() {
     }
 
-    public NhanVien(int maNV, String ten, String ngaysinh, String diachi, int luong, String matkhau, int status, String chucvu) {
+    public NhanVien(int maNV, String ten, Date ngaysinh, String diachi, int luong, String matkhau, int status, String chucvu) {
         this.maNV = maNV;
         this.ten = ten;
         this.ngaysinh = ngaysinh;
@@ -49,11 +51,11 @@ public class NhanVien {
         this.ten = ten;
     }
 
-    public String getNgaysinh() {
+    public Date getNgaysinh() {
         return ngaysinh;
     }
 
-    public void setNgaysinh(String ngaysinh) {
+    public void setNgaysinh(Date ngaysinh) {
         this.ngaysinh = ngaysinh;
     }
 
