@@ -28,6 +28,12 @@ public class KhachHang {
         this.maKH = makh;
     }
 
+    public KhachHang(String ten, String sodt, String email, String diachi) {
+        this.ten = ten;
+        this.sodt = sodt;
+        this.email = email;
+        this.diachi = diachi;
+    }
     
     public int getMaKH() {
         return maKH;

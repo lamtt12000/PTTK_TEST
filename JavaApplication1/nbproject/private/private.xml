@@ -3,9 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/lamtran/Desktop/pttk_test/PTTK_and_TEST/JavaApplication1/src/db/DichVuDB.java</file>
-            <file>file:/home/lamtran/Desktop/pttk_test/PTTK_and_TEST/JavaApplication1/src/NewJFrame.java</file>
-            <file>file:/home/lamtran/Desktop/pttk_test/PTTK_and_TEST/JavaApplication1/src/db/HoaDonDB.java</file>
+            <file>file:/home/lamtran/Desktop/pttk_test/PTTK_and_TEST/JavaApplication1/src/db/KhachHangDB.java</file>
+            <file>file:/home/lamtran/Desktop/pttk_test/PTTK_and_TEST/JavaApplication1/src/NhanhKhachFrame.java</file>
+            <file>file:/home/lamtran/Desktop/pttk_test/PTTK_and_TEST/JavaApplication1/src/db/LichDB.java</file>
+            <file>file:/home/lamtran/Desktop/pttk_test/PTTK_and_TEST/JavaApplication1/src/HienThiLichTrongFrame.java</file>
+            <file>file:/home/lamtran/Desktop/pttk_test/PTTK_and_TEST/JavaApplication1/src/db/LichSpaDB.java</file>
+            <file>file:/home/lamtran/Desktop/pttk_test/PTTK_and_TEST/JavaApplication1/src/model/KhachHang.java</file>
+            <file>file:/home/lamtran/Desktop/pttk_test/PTTK_and_TEST/JavaApplication1/src/model/LichSpa.java</file>
+            <file>file:/home/lamtran/Desktop/pttk_test/PTTK_and_TEST/JavaApplication1/src/model/Lich.java</file>
         </group>
     </open-files>
 </project-private>

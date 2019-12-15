@@ -13,22 +13,22 @@ import java.sql.Timestamp;
  */
 public class Lich {
     private int maL;
-    private Timestamp ngay;
+    private int maLSpa;
     private String sdtkhachhang;
     private int status;
     private int maNV;
 
 
-    public Lich(int maL, Timestamp ngay, String sdtkhachhang, int status, int maNV) {
+    public Lich(int maL, int maLSpa, String sdtkhachhang, int status, int maNV) {
         this.maL = maL;
-        this.ngay = ngay;
+        this.maLSpa = maLSpa;
         this.sdtkhachhang = sdtkhachhang;
         this.status = status;
         this.maNV = maNV;
     }
 
-    public Lich(Timestamp ngay, String sdtkhachhang, int status, int maNV) {
-        this.ngay = ngay;
+    public Lich(int maLSpa, String sdtkhachhang, int status, int maNV) {
+        this.maLSpa = maLSpa;
         this.sdtkhachhang = sdtkhachhang;
         this.status = status;
         this.maNV = maNV;
@@ -50,14 +50,13 @@ public class Lich {
         this.maL = maL;
     }
 
-    public Timestamp getNgay() {
-        return ngay;
+    public int getMaLSpa() {
+        return maLSpa;
     }
 
-    public void setNgay(Timestamp ngay) {
-        this.ngay = ngay;
+    public void setMaLSpa(int maLSpa) {
+        this.maLSpa = maLSpa;
     }
-
    
     public String getSdtkhachhang() {
         return sdtkhachhang;

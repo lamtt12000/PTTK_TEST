@@ -38,7 +38,7 @@ public class KhachHangDB {
         myDB = new MyDB();
     }
     
-    public int insert() throws SQLException{
+    public int insert(KhachHang kh) throws SQLException{
         int kt = 10002;
         try {
             con = myDB.openConnect();
@@ -124,7 +124,7 @@ public class KhachHangDB {
     public static void main(String[] args) throws SQLException {
         KhachHang k = new KhachHang( 1, "KH A", "01223123", "akh@gmail.com", "Ha noi");
         KhachHangDB kdb = new KhachHangDB(k);
-        System.out.println(kdb.insert());
+//        System.out.println(kdb.insert());
 //        KhachHang k1 = kdb.get_by_id(1);
 //        System.out.println(k1.getEmail());
     }
