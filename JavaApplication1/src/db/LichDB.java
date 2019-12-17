@@ -179,10 +179,10 @@ public class LichDB {
             rs1 = ps1.executeQuery();
             while(rs1.next()) {
                 System.out.println(rs1.getTimestamp("thoigian") + "--------" + rs1.getInt("malsp"));
-                String sql = "SELECT * FROM lich WHERE sdt_kh = ? AND status = 0 AND malspa=" + rs1.getInt("malsp");
+                String sql = "SELECT * FROM lich WHERE sdt_kh=? AND status=0 AND malspa=" + rs1.getInt("malsp");
                 ps=con.prepareStatement(sql);
                 for (int i = 0; i < list.size(); i++) {
-                    System.out.println("-------------" + list.get(i).getSodt());
+//                    System.out.println("-------------" + list.get(i).getSodt());
                     ps.setString(1, list.get(i).getSodt());
                     rs = ps.executeQuery();
                     while(rs.next()) {
